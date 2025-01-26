@@ -2,7 +2,7 @@ name: Build
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master ] # 或者你使用的默认分支名称
   pull_request:
     branches: [ master ]
 
@@ -17,7 +17,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '6.0.x' # 根据需要选择版本
+        dotnet-version: '6.0.x' # 使用实际存在的最新版本
 
     - name: Restore dependencies
       run: dotnet restore
@@ -27,3 +27,12 @@ jobs:
 
     - name: Test
       run: dotnet test --no-restore --verbosity normal
+
+    - name: Publish
+      run: dotnet publish --configuration Release --output published-app
+
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: published-application
+        path: ./published-app
