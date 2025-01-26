@@ -17,7 +17,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: '6.0.11' # 根据需要选择版本
+        dotnet-version: '6.0.x' # 根据需要选择版本
 
     - name: Restore dependencies
       run: dotnet restore
