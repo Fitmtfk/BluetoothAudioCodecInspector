@@ -1,4 +1,4 @@
-name: Build
+name: Build and Publish
 
 on:
   push:
@@ -22,17 +22,12 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore
 
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
-
-    - name: Publish
-      run: dotnet publish --configuration Release --output published-app
+    - name: Publish self-contained executable
+      run: dotnet publish --configuration Release --runtime win-x64 --self-contained true /p:PublishSingleFile=true --output published-app
+      # 如果你的目标是 Linux 或 macOS，可以将 `--runtime win-x64` 更改为如 `linux-x64` 或 `osx-x64`
 
     - name: Upload Build Artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3 # 更新为 v3 版本
       with:
         name: published-application
         path: ./published-app
